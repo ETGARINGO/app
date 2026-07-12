@@ -633,7 +633,7 @@ async function seedDemoData() {
   if (!usersSnap.exists()) {
     await db.ref('users').set({
       u1: { email: 'elizergaringo@gmail.com', password: 'lix123', role: 'Admin', name: 'Admin User' },
-      u2: { email: '@shop.com.com', password: 'user123', role: 'User', name: 'User 1' }
+      u2: { email: '@shop.com', password: 'user123', role: 'User', name: 'User 1' }
     });
   }
   const recSnap = await db.ref('records').once('value');
