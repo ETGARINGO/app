@@ -632,7 +632,7 @@ async function seedDemoData() {
   const usersSnap = await db.ref('users').once('value');
   if (!usersSnap.exists()) {
     await db.ref('users').set({
-      u1: { email: 'elizergaringo@gmail.com', password: 'lix123', role: 'Admin', name: 'Admin User' },
+      u1: { email: 'elizergaringo@gmail.com', password: 'lix', role: 'Admin', name: 'Admin User' },
       u2: { email: '@shop.com', password: 'user123', role: 'User', name: 'User 1' }
     });
   }
