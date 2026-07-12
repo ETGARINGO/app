@@ -632,8 +632,8 @@ async function seedDemoData() {
   const usersSnap = await db.ref('users').once('value');
   if (!usersSnap.exists()) {
     await db.ref('users').set({
-      u1: { email: 'admin@demo.com', password: 'admin123', role: 'Admin', name: 'Admin User' },
-      u2: { email: 'user1@demo.com', password: 'user123', role: 'User', name: 'User 1' }
+      u1: { email: 'elizergaringo@gmail.com', password: 'lix123', role: 'Admin', name: 'Admin User' },
+      u2: { email: '@shop.com.com', password: 'user123', role: 'User', name: 'User 1' }
     });
   }
   const recSnap = await db.ref('records').once('value');
@@ -645,7 +645,7 @@ async function seedDemoData() {
       recs['r' + i] = {
         name: 'Customer ' + i, email: 'customer' + i + '@demo.com', phone: '0300' + String(1000000 + i),
         category: cats[(i - 1) % cats.length], amount: i * 100, active: i % 2 === 0,
-        notes: 'Sample note for record ' + i, addedBy: 'admin@demo.com', createdAt: d.toISOString()
+        notes: 'Sample note for record ' + i, addedBy: 'elizergaringo@gmail.com', createdAt: d.toISOString()
       };
     }
     await db.ref('records').set(recs);
@@ -1533,7 +1533,7 @@ function LoginPage({ onLogin }) {
           </button>
           {error && <div className="error">{error}</div>}
         </form>
-        <p style={{marginTop: '20px', fontSize: '12px', color: '#999'}}>Demo: admin@demo.com / admin123 (Admin) &nbsp;•&nbsp; user1@demo.com / user123 (User)</p>
+        <p style={{marginTop: '20px', fontSize: '12px', color: '#999'}}>Demo: elizergaringo@gmail.com / lix (Admin) &nbsp;•&nbsp; @shop.com / user123 (User)</p>
       </div>
     </div>
   );
