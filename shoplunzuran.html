@@ -11,7 +11,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <title>Lunzuran Shop Manager</title>
-<link rel="icon" href="https://www.facebook.com/photo/?fbid=783491347766857&set=a.103394139109918">
+<link rel="icon" href="https://github.com/ETGARINGO/app/blob/main/pos.png">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
@@ -1079,7 +1079,7 @@ const useConfig = () => React.useContext(ConfigContext);
 // category dropdown options - live list from DB, falls back to the seed defaults while loading
 const useCategoryOpts = () => { const { categories } = useConfig(); return useMemo(() => categories.length ? categories.map(c => ({ value: c.name, label: c.name })) : CATEGORY_OPTS, [categories]); };
 
-const LOGO_URL = 'https://www.facebook.com/photo/?fbid=783491347766857&set=a.103394139109918';
+const LOGO_URL = 'https://github.com/ETGARINGO/app/blob/main/pos.png';
 
 const CATEGORY_OPTS = [
   { value: 'Electronics', label: 'Electronics' },
