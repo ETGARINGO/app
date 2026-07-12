@@ -633,7 +633,7 @@ async function seedDemoData() {
   if (!usersSnap.exists()) {
     await db.ref('users').set({
       u1: { email: 'elizergaringo@gmail.com', password: 'lix', role: 'Admin', name: 'Admin User' },
-      u2: { email: '@shop.com', password: 'user123', role: 'User', name: 'User 1' }
+      u2: { email: 'shop@gmail.com', password: 'user123', role: 'User', name: 'User 1' }
     });
   }
   const recSnap = await db.ref('records').once('value');
@@ -1533,7 +1533,7 @@ function LoginPage({ onLogin }) {
           </button>
           {error && <div className="error">{error}</div>}
         </form>
-        <p style={{marginTop: '20px', fontSize: '12px', color: '#999'}}>Demo: elizergaringo@gmail.com / lix (Admin) &nbsp;•&nbsp; @shop.com / user123 (User)</p>
+        <p style={{marginTop: '20px', fontSize: '12px', color: '#999'}}>Demo: elizergaringo@gmail.com / lix (Admin) &nbsp;•&nbsp; shop@gmail.com / user123 (User)</p>
       </div>
     </div>
   );
