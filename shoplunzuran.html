@@ -10,7 +10,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
-<title>Firebase Records Manager - Peso Edition</title>
+<title>Lunzuran Shop Manager</title>
 <link rel="icon" href="https://scontent.fcgy1-3.fna.fbcdn.net/v/t39.30808-1/557621815_783491351100190_4901620585784412168_n.jpg?stp=dst-jpg_tt6&cstp=mx828x828&ctp=s200x200&_nc_cat=109&ccb=1-7&_nc_sid=1d2534&_nc_eui2=AeFNKV3mj7pyUBMOzBC5AfH9jW9CvSi094SNb0K9KLT3hML9arjWEesmmTLWWgNFbiBfos8_V5Z8bCUQJl2-LMIH&_nc_ohc=vcGNECL9JbYQ7kNvwERGBVp&_nc_oc=AdpWHIT75EyDfGOxVW7o6O21FM8TUNZ8-iqIjA6k2yym8NAuvlvDvmbSTtddu15sc2I&_nc_zt=24&_nc_ht=scontent.fcgy1-3.fna&_nc_gid=A28hY5vU5lwBqOdRJ1YU3w&_nc_ss=7a2a8&oh=00_AQCyqLhTmXRkbUqo1QbJilHO4DgfrZpw5s721TbGKLvI7A&oe=6A5353A1">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -1524,7 +1524,7 @@ function LoginPage({ onLogin }) {
     <div className="login-container">
       <div className="login-box">
         <img src={LOGO_URL} alt="Logo" className="login-logo" />
-        <h2>Firebase Records Manager</h2>
+        <h2>Lunzuran Shop Managerr</h2>
         <form onSubmit={handleSubmit}>
           <div className="form-group"><label>Email</label><input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required /></div>
           <div className="form-group"><label>Password</label><input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required /></div>
@@ -2548,7 +2548,7 @@ function ThermalSlip({ sale }) {
     <div className="thermal-slip-print">
       <div className="ts-header">
         <img src={CFG.logoUrl || LOGO_URL} alt="" className="ts-logo" />
-        <div className="ts-app-name">{CFG.business?.name || 'Firebase Records Manager'}</div>
+        <div className="ts-app-name">{CFG.business?.name || 'Lunzuran Shop Manager'}</div>
         {CFG.business?.address ? <div className="ts-sub">{CFG.business.address}</div> : null}
         {CFG.business?.phone ? <div className="ts-sub">{CFG.business.phone}</div> : null}
         {CFG.receiptHeader ? <div className="ts-sub">{CFG.receiptHeader}</div> : null}
@@ -3686,7 +3686,7 @@ function AboutView() {
       <div className="about-header">
         <div className="about-logo"><img src={LOGO_URL} alt="Developer Logo" /></div>
         <div className="about-title">
-          <h1>Firebase Records Manager — Peso Edition</h1>
+          <h1>Lunzuran Shop Manager</h1>
           <p className="about-dev">Developed by <strong>Garz</strong> (GarzScripts)</p>
         </div>
       </div>
