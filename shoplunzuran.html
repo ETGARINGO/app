@@ -11,7 +11,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <title>Lunzuran Shop Manager</title>
-<link rel="icon" href="https://github.com/ETGARINGO/app/blob/main/pos.png">
+<link rel="icon" href="https://github.com/ETGARINGO/app/blob/main/pos.png?raw=true">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
@@ -1079,7 +1079,7 @@ const useConfig = () => React.useContext(ConfigContext);
 // category dropdown options - live list from DB, falls back to the seed defaults while loading
 const useCategoryOpts = () => { const { categories } = useConfig(); return useMemo(() => categories.length ? categories.map(c => ({ value: c.name, label: c.name })) : CATEGORY_OPTS, [categories]); };
 
-const LOGO_URL = 'https://github.com/ETGARINGO/app/blob/main/pos.png';
+const LOGO_URL = 'https://github.com/ETGARINGO/app/blob/main/pos.png?raw=true';
 
 const CATEGORY_OPTS = [
   { value: 'Electronics', label: 'Electronics' },
@@ -3787,8 +3787,7 @@ function AboutView() {
               <tr><td>Scan Resolve (fast)</td><td>Scanned/typed code matched in-memory against product id, SKU or barcode (instant) — only a miss falls back to a Firebase lookup</td><td>QR Sales / POS</td></tr>
               <tr><td>Stock Deduction on Sale</td><td>Checkout writes one Stock Out ledger entry per cart line (reason: Sale) — stock only ever changes via the ledger, never a direct qty edit</td><td>POS Checkout → Stock ledger</td></tr>
               <tr><td>Refund Total</td><td>Σ (qty × price) across the returned lines of a single return; each Return also credits stock back via a Stock In entry (reason: Return)</td><td>Return, Sales History "Returned" column</td></tr>
-              <tr><td>Returnable Qty</td><td>Sold Qty − Σ qty already returned against that s
-ale line (across all prior returns) — caps how much can be returned again</td><td>Process Return</td></tr>
+              <tr><td>Returnable Qty</td><td>Sold Qty − Σ qty already returned against that sale line (across all prior returns) — caps how much can be returned again</td><td>Process Return</td></tr>
               <tr><td>Suggested Reorder Qty</td><td>Reorder Qty if set, else max(0, Max Stock − Qty On Hand), else max(0, Reorder Level × 2 − Qty On Hand)</td><td>Reorder Report</td></tr>
               <tr><td>Product Status</td><td>active / discontinued — discontinued items stay in history &amp; reports but can be filtered out of the working list (delete only as a last resort)</td><td>Products list &amp; Status filter</td></tr>
               <tr><td>Effective Tax Rate (product)</td><td>Product Tax Rate % if set, otherwise the Settings default tax rate</td><td>Product (POS tax uses it next)</td></tr>
