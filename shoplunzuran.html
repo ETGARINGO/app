@@ -627,46 +627,6 @@ window.db = firebase.database();
 function esc(s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function(c) { return { '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;' }[c]; }); }
 function nowIso() { return new Date().toISOString(); }
 
-// seed demo login + sample records once, first run only
-async function seedDemoData() {
-  const usersSnap = await db.ref('users').once('value');
-  if (!usersSnap.exists()) {
-    await db.ref('users').set({
-      u1: { email: 'elizergaringo@gmail.com', password: 'lix', role: 'Admin', name: 'Admin User' },
-      u2: { email: 'shop@gmail.com', password: 'user123', role: 'User', name: 'User 1' }
-    });
-  }
-  const recSnap = await db.ref('records').once('value');
-  if (!recSnap.exists()) {
-    const cats = ['Electronics', 'Clothing', 'Food', 'Services', 'Other'];
-    const recs = {};
-    for (let i = 1; i <= 6; i++) {
-      const d = new Date(); d.setMonth(d.getMonth() - (6 - i));
-      recs['r' + i] = {
-        name: 'Customer ' + i, email: 'customer' + i + '@demo.com', phone: '0300' + String(1000000 + i),
-        category: cats[(i - 1) % cats.length], amount: i * 100, active: i % 2 === 0,
-        notes: 'Sample note for record ' + i, addedBy: 'elizergaringo@gmail.com', createdAt: d.toISOString()
-      };
-    }
-    await db.ref('records').set(recs);
-  }
-  const setSnap = await db.ref('settings').once('value');
-  if (!setSnap.exists()) {
-    await db.ref('settings').set({
-      businessName: 'My Business', currencySymbol: '₱', currencyCode: 'PHP', taxRate: 0, taxInclusive: false,
-      invoicePrefix: 'INV-', lowStockDefault: 5, receiptHeader: '', receiptFooter: 'Thank you for your purchase!',
-      address: '', phone: '', email: '', logoUrl: ''
-    });
-  }
-  const catSnap = await db.ref('categories').once('value');
-  if (!catSnap.exists()) {
-    const cats = ['Electronics', 'Clothing', 'Food', 'Services', 'Other'];
-    const obj = {}; cats.forEach((c, i) => obj['c' + (i + 1)] = { name: c, createdAt: nowIso() });
-    await db.ref('categories').set(obj);
-  }
-}
-seedDemoData();
-
 async function fbLogin(email, password) {
   try {
     const snap = await db.ref('users').orderByChild('email').equalTo(email).once('value');
