@@ -1425,6 +1425,7 @@ function Navbar({ icon, title, userName, role, notifs = [], onLogout, setActiveM
         </NavDropdown>
         <NavDropdown trigger={<img className="nav-avatar" src={LOGO_URL} alt="" />}>
           <a onClick={() => setActiveMenu('about')}><span><i className="fas fa-user"></i> Profile</span><span className="dd-badge">{role}</span></a>
+          <a onClick={toggleFullscreen}><span><i className="fas fa-expand"></i>{" "}{document.fullscreenElement ? "Exit Full Screen" : "Full Screen"}</span></a> 
           <button onClick={onLogout}><span><i className="fas fa-right-from-bracket"></i> Logout</span></button>
         </NavDropdown>
       </div>
@@ -3962,6 +3963,15 @@ class ErrorBoundary extends React.Component {
     return this.props.children;
   }
 }
+  const toggleFullscreen = () => {
+  if (!document.fullscreenElement) {
+    document.documentElement.requestFullscreen().catch(err => {
+      console.error("Fullscreen error:", err);
+    });
+  } else {
+    document.exitFullscreen();
+  }
+};
 
 ReactDOM.createRoot(document.getElementById('root')).render(<ErrorBoundary><App /></ErrorBoundary>);
 </script>
