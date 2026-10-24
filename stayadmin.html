@@ -20,25 +20,160 @@
             height: 100%;
             overflow: hidden;
             background-color: #ffffff;
+            font-family: Arial, sans-serif;
         }
 
-        /* Full-screen iframe with no header and no page exits */
-        iframe {
+        /* Full-screen main dashboard iframe */
+        .main-frame {
             width: 100%;
             height: 100%;
             border: none;
             display: block;
         }
+
+        /* Floating Action Button (FAB) */
+        .fab-button {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            z-index: 9999;
+            background-color: #007bff;
+            color: #ffffff;
+            border: none;
+            border-radius: 50px;
+            padding: 14px 22px;
+            font-size: 15px;
+            font-weight: bold;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .fab-button:hover {
+            background-color: #0056b3;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Persistent Always-On Overlay Container */
+        .overlay-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            z-index: 10000;
+            display: none; /* Controlled by JS */
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        /* Active class to show overlay */
+        .overlay-container.active {
+            display: flex;
+        }
+
+        /* Overlay Content Box */
+        .overlay-content {
+            position: relative;
+            width: 90%;
+            max-width: 1000px;
+            height: 85%;
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Overlay Header Bar */
+        .overlay-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px 20px;
+            background-color: #f8f9fa;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        .overlay-header h3 {
+            margin: 0;
+            font-size: 18px;
+            color: #333333;
+        }
+
+        .close-btn {
+            background: transparent;
+            border: none;
+            font-size: 24px;
+            font-weight: bold;
+            color: #666666;
+            cursor: pointer;
+            line-height: 1;
+            padding: 0 4px;
+        }
+
+        .close-btn:hover {
+            color: #000000;
+        }
+
+        /* Overlay iframe */
+        .overlay-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+            flex-grow: 1;
+        }
     </style>
 </head>
 <body>
 
+    <!-- Main Admin Dashboard Frame -->
     <iframe 
+        class="main-frame"
         src="https://script.google.com/macros/s/AKfycbzPQWrjHQ7dCqCDpzflGLX9Oi23ojHbMVWKNP-rNIkrcN-lIJU_Nsny9rhGGy87fkt0xw/exec?page=admin" 
         allow="geolocation; microphone; camera; midi; encrypted-media;"
         sandbox="allow-forms allow-modals allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"
         loading="lazy">
     </iframe>
+
+    <!-- Floating Assisted Button -->
+    <button class="fab-button" onclick="openOverlay()">
+        📅 Client Reserve
+    </button>
+
+    <!-- Always View Overlay Modal -->
+    <div class="overlay-container" id="reserveOverlay">
+        <div class="overlay-content">
+            <div class="overlay-header">
+                <h3>Client Reserve Assistance</h3>
+                <button class="close-btn" onclick="closeOverlay()">&times;</button>
+            </div>
+            <iframe 
+                class="overlay-frame"
+                src="https://script.google.com/macros/s/AKfycbzPQWrjHQ7dCqCDpzflGLX9Oi23ojHbMVWKNP-rNIkrcN-lIJU_Nsny9rhGGy87fkt0xw/exec" 
+                allow="geolocation; microphone; camera; midi; encrypted-media;"
+                sandbox="allow-forms allow-modals allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"
+                loading="lazy">
+            </iframe>
+        </div>
+    </div>
+
+    <script>
+        function openOverlay() {
+            document.getElementById('reserveOverlay').classList.add('active');
+        }
+
+        function closeOverlay() {
+            document.getElementById('reserveOverlay').classList.remove('active');
+        }
+    </script>
 
 </body>
 </html>
