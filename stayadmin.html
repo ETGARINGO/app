@@ -21,6 +21,8 @@
             overflow: hidden;
             background-color: #ffffff;
             font-family: Arial, sans-serif;
+            user-select: none;
+            -webkit-user-select: none;
         }
 
         /* Full-screen main dashboard iframe */
@@ -31,7 +33,7 @@
             display: block;
         }
 
-        /* Floating Action Button (FAB) */
+        /* Floating Movable Action Button (AssistiveTouch Style) */
         .fab-button {
             position: fixed;
             bottom: 25px;
@@ -45,16 +47,20 @@
             font-size: 15px;
             font-weight: bold;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
-            cursor: pointer;
+            cursor: grab;
             display: flex;
             align-items: center;
             gap: 8px;
-            transition: all 0.3s ease;
+            touch-action: none; /* Prevents default mobile scrolling behavior while dragging */
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .fab-button:active {
+            cursor: grabbing;
         }
 
         .fab-button:hover {
             background-color: #0056b3;
-            transform: translateY(-2px);
             box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
         }
 
@@ -143,8 +149,8 @@
         loading="lazy">
     </iframe>
 
-    <!-- Floating Assisted Button -->
-    <button class="fab-button" onclick="openOverlay()">
+    <!-- Floating Movable Assisted Button -->
+    <button class="fab-button" id="fabButton">
         📅 Client Reserve
     </button>
 
@@ -166,6 +172,85 @@
     </div>
 
     <script>
+        const fab = document.getElementById('fabButton');
+        let isDragging = false;
+        let startX, startY, initialX, initialY;
+        let hasMoved = false;
+
+        // Helper to get client coordinates from either mouse or touch event
+        function getClientCoordinates(e) {
+            if (e.touches && e.touches.length > 0) {
+                return { x: e.touches[0].clientX, y: e.touches[0].clientY };
+            }
+            return { x: e.clientX, y: e.clientY };
+        }
+
+        function dragStart(e) {
+            isDragging = true;
+            hasMoved = false;
+            const coords = getClientCoordinates(e);
+            startX = coords.x;
+            startY = coords.y;
+
+            const rect = fab.getBoundingClientRect();
+            // Convert positioning to absolute top/left for smooth free dragging
+            fab.style.bottom = 'auto';
+            fab.style.right = 'auto';
+            fab.style.top = rect.top + 'px';
+            fab.style.left = rect.left + 'px';
+
+            initialX = rect.left;
+            initialY = rect.top;
+
+            e.preventDefault();
+        }
+
+        function drag(e) {
+            if (!isDragging) return;
+            const coords = getClientCoordinates(e);
+            const dx = coords.x - startX;
+            const dy = coords.y - startY;
+
+            // If moved more than 5 pixels, classify as a drag instead of a tap/click
+            if (Math.abs(dx) > 5 || Math.abs(dy) > 5) {
+                hasMoved = true;
+            }
+
+            let newX = initialX + dx;
+            let newY = initialY + dy;
+
+            // Keep button within screen bounds
+            const maxX = window.innerWidth - fab.offsetWidth;
+            const maxY = window.innerHeight - fab.offsetHeight;
+            newX = Math.max(10, Math.min(newX, maxX - 10));
+            newY = Math.max(10, Math.min(newY, maxY - 10));
+
+            fab.style.left = newX + 'px';
+            fab.style.top = newY + 'px';
+        }
+
+        function dragEnd() {
+            if (!isDragging) return;
+            isDragging = false;
+        }
+
+        // Event listeners for Mouse
+        fab.addEventListener('mousedown', dragStart);
+        document.addEventListener('mousemove', drag);
+        document.addEventListener('mouseup', dragEnd);
+
+        // Event listeners for Touch Devices (Mobile/Tablet)
+        fab.addEventListener('touchstart', dragStart, { passive: false });
+        document.addEventListener('touchmove', drag, { passive: false });
+        document.addEventListener('touchend', dragEnd);
+
+        // Click handler: Opens overlay only if the button was clicked/tapped without dragging
+        fab.addEventListener('click', (e) => {
+            if (!hasMoved) {
+                openOverlay();
+            }
+        });
+
         function openOverlay() {
             document.getElementById('reserveOverlay').classList.add('active');
         }
