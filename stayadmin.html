@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard</title>
     
-    <!-- Browser tab icon / thumbnail linked from your Google Drive image -->
+    <!-- Browser tab icon -->
     <link rel="icon" type="image/png" href="https://lh3.googleusercontent.com/d/1L-Jv5pLOJz2dAsW4uTAaUzU0eM1ToErw">
     
     <style>
@@ -19,8 +19,8 @@
             width: 100%;
             height: 100%;
             overflow: hidden;
-            background-color: #ffffff;
-            font-family: Arial, sans-serif;
+            background-color: #f4f6f8;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             user-select: none;
             -webkit-user-select: none;
         }
@@ -33,53 +33,94 @@
             display: block;
         }
 
-        /* Floating Movable Action Button (AssistiveTouch Style) */
+        /* AssistiveTouch Floating Button - Nature Glassmorphism */
         .fab-button {
             position: fixed;
-            bottom: 25px;
-            right: 25px;
+            bottom: 30px;
+            right: 20px;
             z-index: 9999;
-            background-color: #007bff;
-            color: #ffffff;
-            border: none;
-            border-radius: 50px;
-            padding: 14px 22px;
-            font-size: 15px;
-            font-weight: bold;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+            width: 58px;
+            height: 58px;
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            border-radius: 50%;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15), 
+                        0 4px 10px rgba(46, 125, 50, 0.15);
             cursor: grab;
             display: flex;
             align-items: center;
-            gap: 8px;
-            touch-action: none; /* Prevents default mobile scrolling behavior while dragging */
-            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+            justify-content: center;
+            touch-action: none;
+            opacity: 0.95;
+            transition: opacity 0.4s ease, transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease;
+        }
+
+        /* Idle State (Semi-transparent like AssistiveTouch) */
+        .fab-button.idle {
+            opacity: 0.45;
         }
 
         .fab-button:active {
             cursor: grabbing;
+            transform: scale(0.92);
+            opacity: 1;
         }
 
         .fab-button:hover {
-            background-color: #0056b3;
-            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+            opacity: 1;
+            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.2), 0 6px 14px rgba(46, 125, 50, 0.25);
         }
 
-        /* Persistent Always-On Overlay Container */
+        /* Nature Accent Circle inside Button */
+        .fab-icon-wrapper {
+            width: 44px;
+            height: 44px;
+            background: linear-gradient(135deg, #2e7d32 0%, #1b5e20 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: inset 0 2px 4px rgba(255, 255, 255, 0.3), 0 3px 8px rgba(0, 0, 0, 0.2);
+            pointer-events: none;
+        }
+
+        /* SVG Icon */
+        .fab-icon-wrapper svg {
+            width: 22px;
+            height: 22px;
+            fill: #ffffff;
+        }
+
+        /* Smooth snapping animation class */
+        .fab-snap {
+            transition: left 0.35s cubic-bezier(0.25, 1, 0.5, 1), top 0.35s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.4s ease !important;
+        }
+
+        /* Organic Overlay Backdrop */
         .overlay-container {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.6);
+            background-color: rgba(18, 30, 20, 0.55);
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
             z-index: 10000;
-            display: none; /* Controlled by JS */
+            display: none;
             justify-content: center;
             align-items: center;
             padding: 20px;
+            animation: fadeIn 0.25s ease-out;
         }
 
-        /* Active class to show overlay */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
         .overlay-container.active {
             display: flex;
         }
@@ -87,46 +128,61 @@
         /* Overlay Content Box */
         .overlay-content {
             position: relative;
-            width: 90%;
-            max-width: 1000px;
-            height: 85%;
+            width: 92%;
+            max-width: 1050px;
+            height: 88%;
             background-color: #ffffff;
-            border-radius: 12px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            border-radius: 18px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
             overflow: hidden;
             display: flex;
             flex-direction: column;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        /* Overlay Header Bar */
+        @keyframes slideUp {
+            from { transform: translateY(20px) scale(0.97); opacity: 0; }
+            to { transform: translateY(0) scale(1); opacity: 1; }
+        }
+
+        /* Natural Header Bar */
         .overlay-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 14px 20px;
-            background-color: #f8f9fa;
-            border-bottom: 1px solid #dee2e6;
+            padding: 16px 24px;
+            background: linear-gradient(90deg, #1b5e20, #2e7d32);
+            color: #ffffff;
         }
 
         .overlay-header h3 {
             margin: 0;
-            font-size: 18px;
-            color: #333333;
+            font-size: 17px;
+            font-weight: 600;
+            letter-spacing: 0.3px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
         .close-btn {
-            background: transparent;
+            background: rgba(255, 255, 255, 0.15);
             border: none;
-            font-size: 24px;
-            font-weight: bold;
-            color: #666666;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            font-size: 18px;
+            color: #ffffff;
             cursor: pointer;
-            line-height: 1;
-            padding: 0 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s ease;
         }
 
         .close-btn:hover {
-            color: #000000;
+            background: rgba(255, 255, 255, 0.3);
         }
 
         /* Overlay iframe */
@@ -149,16 +205,23 @@
         loading="lazy">
     </iframe>
 
-    <!-- Floating Movable Assisted Button -->
-    <button class="fab-button" id="fabButton">
-        📅 Client Reserve
-    </button>
+    <!-- AssistiveTouch Nature Button -->
+    <div class="fab-button" id="fabButton" title="Client Reserve">
+        <div class="fab-icon-wrapper">
+            <!-- Leaf & Calendar Combined Nature Icon -->
+            <svg viewBox="0 0 24 24">
+                <path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V10h14v10zm0-12H5V6h14v2zm-7 3c-2.76 0-5 2.24-5 5 0 .55.45 1 1 1h8c.55 0 1-.45 1-1 0-2.76-2.24-5-5-5z"/>
+            </svg>
+        </div>
+    </div>
 
     <!-- Always View Overlay Modal -->
     <div class="overlay-container" id="reserveOverlay">
         <div class="overlay-content">
             <div class="overlay-header">
-                <h3>Client Reserve Assistance</h3>
+                <h3>
+                    <span>🌿</span> Client Reserve Assistance
+                </h3>
                 <button class="close-btn" onclick="closeOverlay()">&times;</button>
             </div>
             <iframe 
@@ -176,8 +239,20 @@
         let isDragging = false;
         let startX, startY, initialX, initialY;
         let hasMoved = false;
+        let idleTimer = null;
 
-        // Helper to get client coordinates from either mouse or touch event
+        // Reset idle timeout to fade button when inactive
+        function resetIdleTimer() {
+            fab.classList.remove('idle');
+            clearTimeout(idleTimer);
+            idleTimer = setTimeout(() => {
+                if (!isDragging) {
+                    fab.classList.add('idle');
+                }
+            }, 3500);
+        }
+
+        // Helper to extract mouse or touch coordinates
         function getClientCoordinates(e) {
             if (e.touches && e.touches.length > 0) {
                 return { x: e.touches[0].clientX, y: e.touches[0].clientY };
@@ -188,12 +263,14 @@
         function dragStart(e) {
             isDragging = true;
             hasMoved = false;
+            resetIdleTimer();
+            fab.classList.remove('fab-snap');
+
             const coords = getClientCoordinates(e);
             startX = coords.x;
             startY = coords.y;
 
             const rect = fab.getBoundingClientRect();
-            // Convert positioning to absolute top/left for smooth free dragging
             fab.style.bottom = 'auto';
             fab.style.right = 'auto';
             fab.style.top = rect.top + 'px';
@@ -211,19 +288,18 @@
             const dx = coords.x - startX;
             const dy = coords.y - startY;
 
-            // If moved more than 5 pixels, classify as a drag instead of a tap/click
-            if (Math.abs(dx) > 5 || Math.abs(dy) > 5) {
+            if (Math.abs(dx) > 4 || Math.abs(dy) > 4) {
                 hasMoved = true;
             }
 
             let newX = initialX + dx;
             let newY = initialY + dy;
 
-            // Keep button within screen bounds
+            // Constrain dragging bounds
             const maxX = window.innerWidth - fab.offsetWidth;
             const maxY = window.innerHeight - fab.offsetHeight;
-            newX = Math.max(10, Math.min(newX, maxX - 10));
-            newY = Math.max(10, Math.min(newY, maxY - 10));
+            newX = Math.max(8, Math.min(newX, maxX - 8));
+            newY = Math.max(8, Math.min(newY, maxY - 8));
 
             fab.style.left = newX + 'px';
             fab.style.top = newY + 'px';
@@ -232,20 +308,38 @@
         function dragEnd() {
             if (!isDragging) return;
             isDragging = false;
+
+            if (hasMoved) {
+                snapToEdge();
+            }
+            resetIdleTimer();
         }
 
-        // Event listeners for Mouse
+        // AssistiveTouch Edge Snapping Mechanism
+        function snapToEdge() {
+            fab.classList.add('fab-snap');
+            const rect = fab.getBoundingClientRect();
+            const screenWidth = window.innerWidth;
+            const padding = 12;
+
+            // Snap to nearest left or right edge
+            let targetX = (rect.left + rect.width / 2 < screenWidth / 2) 
+                ? padding 
+                : screenWidth - fab.offsetWidth - padding;
+
+            fab.style.left = targetX + 'px';
+        }
+
+        // Event listeners
         fab.addEventListener('mousedown', dragStart);
         document.addEventListener('mousemove', drag);
         document.addEventListener('mouseup', dragEnd);
 
-        // Event listeners for Touch Devices (Mobile/Tablet)
         fab.addEventListener('touchstart', dragStart, { passive: false });
         document.addEventListener('touchmove', drag, { passive: false });
         document.addEventListener('touchend', dragEnd);
 
-        // Click handler: Opens overlay only if the button was clicked/tapped without dragging
-        fab.addEventListener('click', (e) => {
+        fab.addEventListener('click', () => {
             if (!hasMoved) {
                 openOverlay();
             }
@@ -257,7 +351,11 @@
 
         function closeOverlay() {
             document.getElementById('reserveOverlay').classList.remove('active');
+            resetIdleTimer();
         }
+
+        // Initialize idle timer on load
+        resetIdleTimer();
     </script>
 
 </body>
