@@ -259,6 +259,7 @@
         </div>
     </div>
 
+    <!-- Always In-Frame: Using a local iframe loader wrapper to prevent DNS breakout / popup exits -->
     <iframe 
       id="app-frame"
       src="https://script.google.com/macros/s/AKfycbwbXLOYlXnGmnYHjULNPEUpO0RTtjeMmeoipG6T9P7PiJIsCs1uTcSw0mpmzOWt0SID/exec" 
@@ -352,7 +353,7 @@
         window.addEventListener('touchmove', dragMove, { passive: true });
         window.addEventListener('touchend', dragEnd);
 
-        // Click / Tap Handler with "Are you Admin?" Prompt Check
+        // Click / Tap Handler with "Are you Admin?" Prompt Check & In-Frame Retention
         let clickTimer = null;
 
         floatBtn.addEventListener('click', (e) => {
@@ -371,14 +372,23 @@
         });
 
         function triggerAdminCheck() {
-            // Asks "Are you Admin?"
             const isAdmin = confirm("Are you Admin?");
             
             if (isAdmin) {
-                // If OK / Yes -> Proceed to Admin Dashboard
-                window.location.href = adminUrl;
+                // Instead of breaking out or changing location.href globally, 
+                // load the admin view smoothly right inside the existing frame so it never exits/skips the DNS wrapper.
+                iframe.src = adminUrl;
+                
+                // Show loader briefly to indicate state transition smoothly
+                loader.classList.remove('fade-out');
+                iframe.classList.remove('loaded');
+                
+                setTimeout(() => {
+                    loader.classList.add('fade-out');
+                    iframe.classList.add('loaded');
+                }, 1200);
             } else {
-                // If Cancel / No -> Stay right here / Go back / Do nothing
+                // If Cancel / No -> Stay right here / Cancel safely
                 return;
             }
         }
