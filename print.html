@@ -188,7 +188,6 @@
             box-shadow: 0 10px 40px rgba(0, 240, 255, 0.3), inset 0 0 15px rgba(0, 240, 255, 0.4);
         }
 
-        /* Inner iOS-style concentric glowing target ring */
         .touch-inner-ring {
             width: 32px;
             height: 32px;
@@ -241,7 +240,7 @@
     <div class="bg-glow"></div>
 
     <!-- iOS Style Movable Floating Assistive Touch Button -->
-    <div id="assistive-touch" title="Tap or Double-Tap for Admin Dashboard" aria-label="Admin Dashboard shortcut">
+    <div id="assistive-touch" title="Tap for Admin Access" aria-label="Admin Dashboard shortcut">
         <div class="touch-inner-ring">
             <div class="touch-core-dot"></div>
         </div>
@@ -283,7 +282,7 @@
         iframe.addEventListener('load', initializeApp);
         setTimeout(initializeApp, 2500);
 
-        // --- Movable & Click/Double-Tap Admin Redirect Logic ---
+        // --- Movable & Admin Verification Prompt Logic ---
         const floatBtn = document.getElementById('assistive-touch');
         const adminUrl = "https://script.google.com/macros/s/AKfycbwbXLOYlXnGmnYHjULNPEUpO0RTtjeMmeoipG6T9P7PiJIsCs1uTcSw0mpmzOWt0SID/exec?page=admin";
 
@@ -291,7 +290,6 @@
         let hasMoved = false;
         let startX, startY, initialX, initialY;
 
-        // Touch & Mouse Event Handlers for Dragging
         function dragStart(e) {
             isDragging = true;
             hasMoved = false;
@@ -307,7 +305,6 @@
             initialX = rect.left;
             initialY = rect.top;
 
-            // Switch to fixed positioning coordinates based on current layout
             floatBtn.style.left = initialX + 'px';
             floatBtn.style.top = initialY + 'px';
             floatBtn.style.bottom = 'auto';
@@ -330,7 +327,6 @@
             let newX = initialX + dx;
             let newY = initialY + dy;
 
-            // Screen boundary clamping
             const maxX = window.innerWidth - floatBtn.offsetWidth;
             const maxY = window.innerHeight - floatBtn.offsetHeight;
 
@@ -347,36 +343,45 @@
             floatBtn.classList.remove('active-drag');
         }
 
-        // Mouse Listeners
+        // Mouse & Touch Drag Listeners
         floatBtn.addEventListener('mousedown', dragStart);
         window.addEventListener('mousemove', dragMove);
         window.addEventListener('mouseup', dragEnd);
 
-        // Touch Listeners
         floatBtn.addEventListener('touchstart', dragStart, { passive: true });
         window.addEventListener('touchmove', dragMove, { passive: true });
         window.addEventListener('touchend', dragEnd);
 
-        // Tap / Click / Double-Tap Redirect Handler
+        // Click / Tap Handler with "Are you Admin?" Prompt Check
         let clickTimer = null;
 
         floatBtn.addEventListener('click', (e) => {
-            if (hasMoved) return; // Prevent triggering click if user was just dragging the button
+            if (hasMoved) return; // Prevent triggering if user was dragging the button
 
-            // Detect Double Click / Double Tap
             if (!clickTimer) {
                 clickTimer = setTimeout(() => {
                     clickTimer = null;
-                    // Single Click / Tap action (redirects to admin dashboard)
-                    window.location.href = adminUrl;
+                    triggerAdminCheck();
                 }, 250);
             } else {
                 clearTimeout(clickTimer);
                 clickTimer = null;
-                // Double Click / Tap action (redirects to admin dashboard instantly)
-                window.location.href = adminUrl;
+                triggerAdminCheck();
             }
         });
+
+        function triggerAdminCheck() {
+            // Asks "Are you Admin?"
+            const isAdmin = confirm("Are you Admin?");
+            
+            if (isAdmin) {
+                // If OK / Yes -> Proceed to Admin Dashboard
+                window.location.href = adminUrl;
+            } else {
+                // If Cancel / No -> Stay right here / Go back / Do nothing
+                return;
+            }
+        }
     </script>
 </body>
 </html>
