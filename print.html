@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     
     <!-- Primary SEO Meta Tags -->
     <title>PrintPOS | Print & Signage Operations Manager</title>
@@ -40,6 +40,7 @@
             background-color: var(--bg-color);
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             -webkit-font-smoothing: antialiased;
+            touch-action: none;
         }
 
         .bg-glow {
@@ -156,6 +157,59 @@
             visibility: hidden !important;
         }
 
+        /* --- iOS Assistive Touch Floating Button Styling --- */
+        #assistive-touch {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 54px;
+            height: 54px;
+            background: rgba(15, 20, 25, 0.65);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            border-radius: 50%;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), inset 0 0 12px rgba(0, 240, 255, 0.2);
+            z-index: 10000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            user-select: none;
+            transition: transform 0.15s ease, background 0.2s ease, opacity 0.3s ease;
+            opacity: 0.85;
+        }
+
+        #assistive-touch:hover, #assistive-touch.active-drag {
+            opacity: 1;
+            background: rgba(20, 30, 40, 0.85);
+            transform: scale(1.08);
+            border-color: var(--accent-color);
+            box-shadow: 0 10px 40px rgba(0, 240, 255, 0.3), inset 0 0 15px rgba(0, 240, 255, 0.4);
+        }
+
+        /* Inner iOS-style concentric glowing target ring */
+        .touch-inner-ring {
+            width: 32px;
+            height: 32px;
+            border: 2px solid rgba(0, 240, 255, 0.7);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 8px var(--accent-color);
+            pointer-events: none;
+        }
+
+        .touch-core-dot {
+            width: 8px;
+            height: 8px;
+            background-color: #ffffff;
+            border-radius: 50%;
+            box-shadow: 0 0 6px #ffffff;
+            pointer-events: none;
+        }
+
         @keyframes premiumEntrance {
             to { opacity: 1; transform: scale(1) translateY(0); }
         }
@@ -178,13 +232,20 @@
 </head>
 <body>
 
-    <!-- Semantic Hidden Text for Search Engine Crawlers (Since iframes hide inner text) -->
+    <!-- Semantic Hidden Text for Search Engine Crawlers -->
     <div style="display:none;" aria-hidden="true">
         <h1>PrintPOS Print & Signage Operations Manager</h1>
         <p>Manage print queues, custom signage jobs, vector file processing, inventory management, material tracking, and client invoicing.</p>
     </div>
 
     <div class="bg-glow"></div>
+
+    <!-- iOS Style Movable Floating Assistive Touch Button -->
+    <div id="assistive-touch" title="Tap or Double-Tap for Admin Dashboard" aria-label="Admin Dashboard shortcut">
+        <div class="touch-inner-ring">
+            <div class="touch-core-dot"></div>
+        </div>
+    </div>
 
     <div id="loader">
         <div class="logo-wrapper">
@@ -201,7 +262,7 @@
 
     <iframe 
       id="app-frame"
-      src="https://script.google.com/macros/s/AKfycbzZws2ww4E8lrwi71J4q7AY-hVJBtUaXehe29xKSBZZbiHf-JmPqS7Rnij_Xb6ltIUa/exec" 
+      src="https://script.google.com/macros/s/AKfycbwbXLOYlXnGmnYHjULNPEUpO0RTtjeMmeoipG6T9P7PiJIsCs1uTcSw0mpmzOWt0SID/exec" 
       allow="camera; microphone; geolocation; clipboard-write"
       sandbox="allow-downloads allow-forms allow-modals allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts">
     </iframe>
@@ -220,8 +281,102 @@
         }
 
         iframe.addEventListener('load', initializeApp);
-        // Fail-safe reduced to 2.5s for faster perceived performance
         setTimeout(initializeApp, 2500);
+
+        // --- Movable & Click/Double-Tap Admin Redirect Logic ---
+        const floatBtn = document.getElementById('assistive-touch');
+        const adminUrl = "https://script.google.com/macros/s/AKfycbwbXLOYlXnGmnYHjULNPEUpO0RTtjeMmeoipG6T9P7PiJIsCs1uTcSw0mpmzOWt0SID/exec?page=admin";
+
+        let isDragging = false;
+        let hasMoved = false;
+        let startX, startY, initialX, initialY;
+
+        // Touch & Mouse Event Handlers for Dragging
+        function dragStart(e) {
+            isDragging = true;
+            hasMoved = false;
+            floatBtn.classList.add('active-drag');
+
+            const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+            const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+
+            startX = clientX;
+            startY = clientY;
+
+            const rect = floatBtn.getBoundingClientRect();
+            initialX = rect.left;
+            initialY = rect.top;
+
+            // Switch to fixed positioning coordinates based on current layout
+            floatBtn.style.left = initialX + 'px';
+            floatBtn.style.top = initialY + 'px';
+            floatBtn.style.bottom = 'auto';
+            floatBtn.style.right = 'auto';
+        }
+
+        function dragMove(e) {
+            if (!isDragging) return;
+
+            const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+            const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+
+            const dx = clientX - startX;
+            const dy = clientY - startY;
+
+            if (Math.abs(dx) > 4 || Math.abs(dy) > 4) {
+                hasMoved = true;
+            }
+
+            let newX = initialX + dx;
+            let newY = initialY + dy;
+
+            // Screen boundary clamping
+            const maxX = window.innerWidth - floatBtn.offsetWidth;
+            const maxY = window.innerHeight - floatBtn.offsetHeight;
+
+            newX = Math.max(10, Math.min(newX, maxX - 10));
+            newY = Math.max(10, Math.min(newY, maxY - 10));
+
+            floatBtn.style.left = newX + 'px';
+            floatBtn.style.top = newY + 'px';
+        }
+
+        function dragEnd() {
+            if (!isDragging) return;
+            isDragging = false;
+            floatBtn.classList.remove('active-drag');
+        }
+
+        // Mouse Listeners
+        floatBtn.addEventListener('mousedown', dragStart);
+        window.addEventListener('mousemove', dragMove);
+        window.addEventListener('mouseup', dragEnd);
+
+        // Touch Listeners
+        floatBtn.addEventListener('touchstart', dragStart, { passive: true });
+        window.addEventListener('touchmove', dragMove, { passive: true });
+        window.addEventListener('touchend', dragEnd);
+
+        // Tap / Click / Double-Tap Redirect Handler
+        let clickTimer = null;
+
+        floatBtn.addEventListener('click', (e) => {
+            if (hasMoved) return; // Prevent triggering click if user was just dragging the button
+
+            // Detect Double Click / Double Tap
+            if (!clickTimer) {
+                clickTimer = setTimeout(() => {
+                    clickTimer = null;
+                    // Single Click / Tap action (redirects to admin dashboard)
+                    window.location.href = adminUrl;
+                }, 250);
+            } else {
+                clearTimeout(clickTimer);
+                clickTimer = null;
+                // Double Click / Tap action (redirects to admin dashboard instantly)
+                window.location.href = adminUrl;
+            }
+        });
     </script>
 </body>
 </html>
