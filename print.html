@@ -4,23 +4,31 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <!-- Printing Business System Title -->
+    <!-- Primary SEO Meta Tags -->
     <title>PrintPOS | Print & Signage Operations Manager</title>
-    
-    <!-- Complete Link Icon (Favicon) Suite -->
+    <meta name="description" content="Streamline your print shop operations, job queues, material inventory, and custom signage production with PrintPOS.">
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+    <meta name="author" content="PrintPOS Systems">
+
+    <!-- Open Graph / Social & Search Engine Rich Snippets -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="PrintPOS | Print & Signage Operations Manager">
+    <meta property="og:description" content="Manage print queues, vector processing, and inventory seamlessly.">
+    <meta property="og:image" content="pos.png">
+
+    <!-- Favicon Suite -->
     <link rel="icon" type="image/png" href="pos.png">
     <link rel="shortcut icon" type="image/x-icon" href="pos.png">
     <link rel="apple-touch-icon" href="pos.png">
 
     <style>
         :root {
-            /* High-tech CMYK & Press Industrial Color Palette */
-            --bg-color: #0b0d10;          /* Deep dark slate carbon */
-            --accent-color: #00f0ff;      /* Electric Cyan / RIP processing glow */
-            --accent-magenta: #ff007f;    /* Production Magenta */
+            --bg-color: #0b0d10;
+            --accent-color: #00f0ff;
+            --accent-magenta: #ff007f;
             --accent-glow: rgba(0, 240, 255, 0.15);
             --text-main: #ffffff;
-            --text-muted: #8e9a9f;        /* Cool industrial steel gray */
+            --text-muted: #8e9a9f;
         }
 
         html, body {
@@ -34,7 +42,6 @@
             -webkit-font-smoothing: antialiased;
         }
 
-        /* Ambient Press Glow Background (Simulating digital printing tech) */
         .bg-glow {
             position: absolute;
             width: 500px;
@@ -48,7 +55,6 @@
             animation: floatGlow 12s ease-in-out infinite alternate;
         }
 
-        /* Screen Overlay / Entrance Loader */
         #loader {
             position: fixed;
             top: 0;
@@ -61,18 +67,17 @@
             justify-content: center;
             align-items: center;
             z-index: 9999;
-            transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.6s;
+            transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.5s;
             padding: 20px;
             box-sizing: border-box;
         }
 
-        /* Premium Logo Showcase */
         .logo-wrapper {
             position: relative;
             margin-bottom: 24px;
             opacity: 0;
             transform: scale(0.8) translateY(20px);
-            animation: premiumEntrance 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            animation: premiumEntrance 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
             z-index: 2;
         }
         
@@ -83,7 +88,6 @@
             filter: drop-shadow(0 0 25px rgba(0, 240, 255, 0.4));
         }
 
-        /* Typography & Headings adapted for Print Shop */
         .entrance-text {
             color: var(--text-main);
             font-size: 26px;
@@ -92,7 +96,7 @@
             margin: 0 0 8px 0;
             opacity: 0;
             transform: translateY(20px);
-            animation: fadeInUp 0.8s 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            animation: fadeInUp 0.6s 0.15s cubic-bezier(0.16, 1, 0.3, 1) forwards;
             z-index: 2;
             text-align: center;
         }
@@ -105,13 +109,12 @@
             letter-spacing: 0.5px;
             opacity: 0;
             transform: translateY(15px);
-            animation: fadeInUp 0.8s 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            animation: fadeInUp 0.6s 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
             z-index: 2;
             text-align: center;
             text-transform: uppercase;
         }
 
-        /* CMYK Custom Loading Bar */
         .progress-container {
             width: 220px;
             height: 4px;
@@ -120,7 +123,7 @@
             overflow: hidden;
             position: relative;
             opacity: 0;
-            animation: fadeIn 0.4s 0.5s forwards;
+            animation: fadeIn 0.3s 0.35s forwards;
         }
         
         .progress-bar {
@@ -128,49 +131,36 @@
             height: 100%;
             background: linear-gradient(90deg, #00f0ff, var(--accent-magenta), #ffcc00);
             transform: translateX(-100%);
-            animation: loaderProgress 2.2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+            animation: loaderProgress 1.8s cubic-bezier(0.4, 0, 0.2, 1) infinite;
             box-shadow: 0 0 12px var(--accent-color);
         }
 
-        /* Main Embedded Application Window */
         iframe {
             width: 100%;
             height: 100%;
             border: none;
             display: block;
             opacity: 0;
-            transform: scale(1.015);
-            filter: blur(4px);
-            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), 
-                        transform 0.8s cubic-bezier(0.16, 1, 0.3, 1),
-                        filter 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+            transform: scale(1.01);
+            transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1), 
+                        transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        /* Smooth Reveal State */
         iframe.loaded {
             opacity: 1;
             transform: scale(1);
-            filter: blur(0px);
         }
 
-        /* Master Hide Selector */
         .fade-out {
             opacity: 0 !important;
             visibility: hidden !important;
         }
 
-        /* Keyframe Animations */
         @keyframes premiumEntrance {
-            to {
-                opacity: 1;
-                transform: scale(1) translateY(0);
-            }
+            to { opacity: 1; transform: scale(1) translateY(0); }
         }
         @keyframes fadeInUp {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            to { opacity: 1; transform: translateY(0); }
         }
         @keyframes fadeIn {
             to { opacity: 1; }
@@ -188,13 +178,16 @@
 </head>
 <body>
 
-    <!-- Ambient Tech Glow -->
+    <!-- Semantic Hidden Text for Search Engine Crawlers (Since iframes hide inner text) -->
+    <div style="display:none;" aria-hidden="true">
+        <h1>PrintPOS Print & Signage Operations Manager</h1>
+        <p>Manage print queues, custom signage jobs, vector file processing, inventory management, material tracking, and client invoicing.</p>
+    </div>
+
     <div class="bg-glow"></div>
 
-    <!-- Entrance Loader Overlay -->
     <div id="loader">
         <div class="logo-wrapper">
-            <!-- Ensure pos.png is a print icon, printer icon, vector emblem, or company logo -->
             <img src="pos.png" alt="PrintPOS Logo">
         </div>
         
@@ -206,7 +199,6 @@
         </div>
     </div>
 
-    <!-- Application Embedded Frame -->
     <iframe 
       id="app-frame"
       src="https://script.google.com/macros/s/AKfycbzZws2ww4E8lrwi71J4q7AY-hVJBtUaXehe29xKSBZZbiHf-JmPqS7Rnij_Xb6ltIUa/exec" 
@@ -219,7 +211,6 @@
         const loader = document.getElementById('loader');
         let appInitialized = false;
 
-        // Centralized setup initialization function
         function initializeApp() {
             if (appInitialized) return;
             appInitialized = true;
@@ -228,11 +219,9 @@
             loader.classList.add('fade-out');
         }
 
-        // Strategy A: Monitor Native System Initialization Completion
         iframe.addEventListener('load', initializeApp);
-
-        // Strategy B: Cross-Origin Fail-safe Timeout
-        setTimeout(initializeApp, 3500);
+        // Fail-safe reduced to 2.5s for faster perceived performance
+        setTimeout(initializeApp, 2500);
     </script>
 </body>
 </html>
