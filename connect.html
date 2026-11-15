@@ -1,0 +1,351 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#101827">
+<meta name="robots" content="noindex,nofollow">
+<title>Remote Support | AnyDesk</title>
+
+<style>
+:root {
+  --bg:#080e19;
+  --panel:#111d2d;
+  --gold:#e3b85e;
+  --red:#ed443b;
+  --white:#f5f7fb;
+  --muted:#9ba9bb;
+  --border:rgba(255,255,255,.09);
+}
+* {box-sizing:border-box}
+body {
+  margin:0;
+  min-height:100vh;
+  background:
+    radial-gradient(ellipse at 50% 0%,#1a3150 0%,transparent 55%),
+    var(--bg);
+  color:var(--white);
+  font-family:Inter,Arial,sans-serif;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  padding:20px;
+}
+.container {
+  width:100%;
+  max-width:570px;
+}
+.header {
+  text-align:center;
+  margin-bottom:25px;
+}
+.logo {
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  font-size:24px;
+  font-weight:900;
+}
+.logo-icon {
+  background:var(--red);
+  border-radius:12px;
+  padding:9px;
+  font-size:23px;
+}
+.header p {
+  color:var(--muted);
+  font-size:13px;
+  letter-spacing:1px;
+}
+.card {
+  background:linear-gradient(145deg,#16253a,#101a29);
+  border:1px solid var(--border);
+  border-radius:24px;
+  padding:27px;
+  box-shadow:0 25px 80px #0008;
+}
+.status {
+  display:flex;
+  align-items:center;
+  gap:8px;
+  color:#8de3b0;
+  font-size:12px;
+  margin-bottom:22px;
+}
+.dot {
+  width:8px;height:8px;
+  border-radius:50%;
+  background:#51d58c;
+  box-shadow:0 0 12px #51d58c;
+}
+h1 {
+  font-size:27px;
+  margin:0 0 10px;
+}
+.description {
+  color:var(--muted);
+  font-size:14px;
+  line-height:1.7;
+}
+.idbox {
+  background:#080f1b;
+  border:1px solid #35465c;
+  border-radius:17px;
+  padding:20px;
+  margin:24px 0;
+  text-align:center;
+}
+.idlabel {
+  color:var(--muted);
+  font-size:11px;
+  letter-spacing:2px;
+  margin-bottom:10px;
+}
+.idnumber {
+  font-size:clamp(27px,8vw,39px);
+  font-weight:900;
+  letter-spacing:2px;
+  color:var(--gold);
+  white-space:nowrap;
+}
+button,.button {
+  border:0;
+  border-radius:12px;
+  padding:15px 18px;
+  font-weight:800;
+  font-size:14px;
+  cursor:pointer;
+  text-decoration:none;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:9px;
+  width:100%;
+  transition:.2s;
+}
+button:active,.button:active {transform:scale(.98)}
+.copy {
+  margin-top:17px;
+  background:#263950;
+  color:white;
+}
+.download {
+  background:var(--red);
+  color:white;
+  margin-top:12px;
+}
+.launch {
+  background:#263950;
+  color:white;
+  margin-top:10px;
+}
+.steps {
+  margin-top:27px;
+}
+.steps h3 {
+  font-size:14px;
+  margin-bottom:17px;
+}
+.step {
+  display:flex;
+  gap:14px;
+  margin:17px 0;
+  align-items:flex-start;
+}
+.number {
+  min-width:29px;
+  height:29px;
+  border-radius:9px;
+  background:#263950;
+  display:grid;
+  place-items:center;
+  color:var(--gold);
+  font-weight:900;
+}
+.step strong {font-size:13px}
+.step p {
+  font-size:12px;
+  line-height:1.6;
+  color:var(--muted);
+  margin:5px 0 0;
+}
+.notice {
+  margin-top:22px;
+  background:#292719;
+  border:1px solid #6b592c;
+  color:#e9d69c;
+  padding:14px;
+  border-radius:12px;
+  font-size:11px;
+  line-height:1.7;
+}
+.footer {
+  text-align:center;
+  color:#728197;
+  font-size:11px;
+  padding:20px 0;
+}
+.footer a {color:var(--gold)}
+</style>
+</head>
+
+<body>
+<main class="container">
+
+  <header class="header">
+    <div class="logo">
+      <span class="logo-icon">A</span>
+      REMOTE SUPPORT
+    </div>
+    <p>SECURE REMOTE ASSISTANCE PORTAL</p>
+  </header>
+
+  <section class="card">
+
+    <div class="status">
+      <span class="dot"></span>
+      SUPPORT PORTAL AVAILABLE
+    </div>
+
+    <h1>Let's connect remotely.</h1>
+
+    <p class="description">
+      Follow the steps below to download AnyDesk and
+      authorize a remote support session with our technician.
+    </p>
+
+    <div class="idbox">
+      <div class="idlabel">OUR ANYDESK CONNECTION ID</div>
+      <div class="idnumber">1 020 119 851</div>
+
+      <button class="copy" onclick="copyID()">
+        <span>▣</span> COPY CONNECTION ID
+      </button>
+    </div>
+
+    <button class="download" onclick="downloadApp()">
+      ↓ DOWNLOAD ANYDESK
+    </button>
+
+    <button class="launch" onclick="launchApp()">
+      OPEN ANYDESK APPLICATION ↗
+    </button>
+
+    <div class="steps">
+      <h3>HOW TO CONNECT</h3>
+
+      <div class="step">
+        <div class="number">1</div>
+        <div>
+          <strong>Download AnyDesk</strong>
+          <p>Click Download AnyDesk. Select the official version for your device.</p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="number">2</div>
+        <div>
+          <strong>Install or open the application</strong>
+          <p>Follow the installation instructions displayed on your device. Windows users may run the downloaded portable application.</p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="number">3</div>
+        <div>
+          <strong>Enter our AnyDesk ID</strong>
+          <p>Enter 1 020 119 851 in the Remote Address field and click Connect.</p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="number">4</div>
+        <div>
+          <strong>Authorize the connection</strong>
+          <p>Review the connection request and approve it only if you recognize and trust the support technician.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="notice">
+      <strong>SECURITY REMINDER</strong><br>
+      Remote access is provided only with your authorization.
+      Never share passwords, banking OTPs, or sensitive personal
+      information. You can terminate the session at any time.
+    </div>
+
+  </section>
+
+  <footer class="footer">
+    Remote Assistance Portal<br><br>
+    Official software:
+    <a href="https://anydesk.com/en"
+       target="_blank" rel="noopener">
+       AnyDesk
+    </a>
+    &nbsp;|&nbsp;
+    <a href="https://anydesk.com/en/all-platforms"
+       target="_blank" rel="noopener">
+       All Devices
+    </a>
+  </footer>
+
+</main>
+
+<script>
+const ANYDESK_ID = "1020119851";
+
+function copyID() {
+  const text = ANYDESK_ID;
+
+  if (navigator.clipboard && window.isSecureContext) {
+    navigator.clipboard.writeText(text)
+      .then(() => alert("AnyDesk ID copied successfully!"))
+      .catch(() => fallbackCopy(text));
+  } else {
+    fallbackCopy(text);
+  }
+}
+
+function fallbackCopy(text) {
+  const input = document.createElement("textarea");
+  input.value = text;
+  document.body.appendChild(input);
+  input.select();
+  try {
+    document.execCommand("copy");
+    alert("AnyDesk ID copied!");
+  } catch(e) {
+    alert("Your AnyDesk ID is: 1 020 119 851");
+  }
+  input.remove();
+}
+
+function downloadApp() {
+  const ua = navigator.userAgent;
+
+  let url = "https://anydesk.com/en/downloads";
+
+  if (/Android/i.test(ua)) {
+    url = "https://anydesk.com/en/downloads/android";
+  } else if (/iPhone|iPad|iPod/i.test(ua)) {
+    url = "https://anydesk.com/en/downloads/ios";
+  } else if (/Macintosh|Mac OS X/i.test(ua)) {
+    url = "https://anydesk.com/en/downloads/mac-os";
+  } else if (/Windows/i.test(ua)) {
+    url = "https://anydesk.com/en/downloads/windows";
+  }
+
+  window.open(url, "_blank", "noopener");
+}
+
+function launchApp() {
+  // Requests the installed AnyDesk application.
+  // The browser or operating system may ask for permission.
+  window.location.href = "anydesk:";
+}
+</script>
+
+</body>
+</html>
