@@ -3,348 +3,763 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#101827">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0b1422">
+<meta name="description" content="Remote technical support portal. Connect securely using AnyDesk.">
 <meta name="robots" content="noindex,nofollow">
-<title>Remote Support | AnyDesk</title>
+
+<title>Remote Support | AnyDesk Assistance</title>
+
+<!-- LOGO AND FAVICON -->
+<link rel="icon" type="image/png" href="logosupport.png">
+<link rel="shortcut icon" href="logosupport.png">
+<link rel="apple-touch-icon" href="logosupport.png">
+<link rel="preload" as="image" href="logosupport.png">
 
 <style>
 :root {
-  --bg:#080e19;
-  --panel:#111d2d;
-  --gold:#e3b85e;
+  --bg:#09111e;
+  --panel:#111e30;
+  --panel2:#17283d;
   --red:#ed443b;
-  --white:#f5f7fb;
-  --muted:#9ba9bb;
+  --gold:#e7bd68;
+  --white:#f7f9fc;
+  --muted:#9cacc0;
   --border:rgba(255,255,255,.09);
+  --green:#50d99a;
 }
-* {box-sizing:border-box}
-body {
+
+* {
+  box-sizing:border-box;
   margin:0;
+  padding:0;
+}
+
+body {
   min-height:100vh;
-  background:
-    radial-gradient(ellipse at 50% 0%,#1a3150 0%,transparent 55%),
-    var(--bg);
+  font-family:Inter,"Segoe UI",Arial,sans-serif;
   color:var(--white);
-  font-family:Inter,Arial,sans-serif;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  padding:20px;
+  background:
+    radial-gradient(ellipse at 50% 0%,#203958 0%,transparent 55%),
+    radial-gradient(circle at 100% 100%,#251e30 0%,transparent 40%),
+    var(--bg);
+  overflow-x:hidden;
 }
-.container {
+
+body:before {
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  opacity:.12;
+  background-image:
+    linear-gradient(rgba(255,255,255,.05) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px);
+  background-size:40px 40px;
+}
+
+button,a {
+  -webkit-tap-highlight-color:transparent;
+}
+
+button {
+  font:inherit;
+}
+
+.page {
   width:100%;
-  max-width:570px;
+  max-width:680px;
+  margin:auto;
+  padding:30px 20px;
+  position:relative;
+  z-index:1;
 }
+
+/* HEADER */
+
 .header {
   text-align:center;
   margin-bottom:25px;
 }
-.logo {
-  display:inline-flex;
+
+.brand {
+  display:flex;
+  justify-content:center;
   align-items:center;
-  gap:10px;
-  font-size:24px;
-  font-weight:900;
+  gap:13px;
 }
-.logo-icon {
-  background:var(--red);
-  border-radius:12px;
-  padding:9px;
+
+.brand-logo {
+  width:65px;
+  height:65px;
+  object-fit:contain;
+  border-radius:15px;
+  filter:drop-shadow(0 5px 15px #0008);
+}
+
+.brand-name {
   font-size:23px;
-}
-.header p {
-  color:var(--muted);
-  font-size:13px;
+  font-weight:900;
   letter-spacing:1px;
 }
-.card {
-  background:linear-gradient(145deg,#16253a,#101a29);
-  border:1px solid var(--border);
-  border-radius:24px;
-  padding:27px;
-  box-shadow:0 25px 80px #0008;
+
+.brand-name span {
+  color:var(--red);
 }
+
+.subtitle {
+  font-size:11px;
+  letter-spacing:3px;
+  color:var(--muted);
+  margin-top:14px;
+}
+
+/* MAIN CARD */
+
+.card {
+  background:linear-gradient(145deg,rgba(24,42,64,.97),rgba(12,23,38,.98));
+  border:1px solid var(--border);
+  border-radius:25px;
+  padding:30px;
+  box-shadow:0 25px 90px rgba(0,0,0,.4);
+  backdrop-filter:blur(20px);
+  animation:appear .7s ease;
+}
+
+@keyframes appear {
+  from {opacity:0;transform:translateY(20px)}
+  to {opacity:1;transform:translateY(0)}
+}
+
 .status {
   display:flex;
+  justify-content:center;
   align-items:center;
-  gap:8px;
-  color:#8de3b0;
-  font-size:12px;
-  margin-bottom:22px;
+  gap:9px;
+  color:var(--green);
+  font-size:11px;
+  letter-spacing:1.5px;
+  margin-bottom:24px;
 }
-.dot {
-  width:8px;height:8px;
+
+.status-dot {
+  width:8px;
+  height:8px;
+  background:var(--green);
   border-radius:50%;
-  background:#51d58c;
-  box-shadow:0 0 12px #51d58c;
+  box-shadow:0 0 13px var(--green);
+  animation:pulse 1.8s infinite;
 }
+
+@keyframes pulse {
+  50% {opacity:.4;box-shadow:0 0 3px var(--green)}
+}
+
 h1 {
-  font-size:27px;
-  margin:0 0 10px;
+  text-align:center;
+  font-size:clamp(25px,6vw,36px);
+  margin-bottom:12px;
 }
-.description {
+
+.intro {
+  text-align:center;
   color:var(--muted);
   font-size:14px;
-  line-height:1.7;
+  line-height:1.8;
+  max-width:470px;
+  margin:0 auto;
 }
+
+/* ID BOX */
+
 .idbox {
-  background:#080f1b;
-  border:1px solid #35465c;
-  border-radius:17px;
-  padding:20px;
-  margin:24px 0;
+  background:linear-gradient(145deg,#091321,#101c2c);
+  border:1px solid rgba(231,189,104,.3);
+  border-radius:20px;
+  padding:25px 15px;
+  margin:28px 0 20px;
   text-align:center;
 }
-.idlabel {
+
+.id-label {
+  font-size:10px;
   color:var(--muted);
-  font-size:11px;
   letter-spacing:2px;
-  margin-bottom:10px;
+  margin-bottom:12px;
 }
-.idnumber {
-  font-size:clamp(27px,8vw,39px);
+
+.id-number {
+  font-size:clamp(29px,8vw,42px);
   font-weight:900;
   letter-spacing:2px;
   color:var(--gold);
   white-space:nowrap;
 }
-button,.button {
+
+.id-description {
+  font-size:11px;
+  color:var(--muted);
+  margin-top:10px;
+}
+
+.btn {
+  width:100%;
+  min-height:52px;
   border:0;
-  border-radius:12px;
-  padding:15px 18px;
-  font-weight:800;
-  font-size:14px;
-  cursor:pointer;
-  text-decoration:none;
+  border-radius:13px;
   display:flex;
   justify-content:center;
   align-items:center;
-  gap:9px;
-  width:100%;
-  transition:.2s;
+  gap:11px;
+  font-size:13px;
+  font-weight:800;
+  text-decoration:none;
+  cursor:pointer;
+  transition:.2s ease;
 }
-button:active,.button:active {transform:scale(.98)}
-.copy {
-  margin-top:17px;
-  background:#263950;
+
+.btn:hover {
+  transform:translateY(-2px);
+  filter:brightness(1.1);
+}
+
+.btn:active {
+  transform:scale(.98);
+}
+
+.btn-copy {
+  background:#253b56;
   color:white;
+  margin-top:18px;
 }
-.download {
-  background:var(--red);
+
+.btn-download {
+  background:linear-gradient(110deg,#f04c41,#d9322d);
   color:white;
-  margin-top:12px;
+  box-shadow:0 8px 22px #ed443b33;
 }
-.launch {
-  background:#263950;
+
+.btn-launch {
+  background:#253b56;
   color:white;
-  margin-top:10px;
+  margin-top:11px;
 }
-.steps {
-  margin-top:27px;
+
+.btn-icon {
+  font-size:19px;
 }
-.steps h3 {
-  font-size:14px;
-  margin-bottom:17px;
-}
-.step {
+
+/* DEVICE */
+
+.device {
+  background:rgba(255,255,255,.035);
+  border:1px solid var(--border);
+  border-radius:14px;
+  padding:15px;
   display:flex;
-  gap:14px;
-  margin:17px 0;
-  align-items:flex-start;
+  align-items:center;
+  gap:13px;
+  margin-top:22px;
 }
-.number {
-  min-width:29px;
-  height:29px;
-  border-radius:9px;
-  background:#263950;
+
+.device-icon {
+  width:42px;
+  height:42px;
   display:grid;
   place-items:center;
-  color:var(--gold);
-  font-weight:900;
-}
-.step strong {font-size:13px}
-.step p {
-  font-size:12px;
-  line-height:1.6;
-  color:var(--muted);
-  margin:5px 0 0;
-}
-.notice {
-  margin-top:22px;
-  background:#292719;
-  border:1px solid #6b592c;
-  color:#e9d69c;
-  padding:14px;
+  background:#273b53;
   border-radius:12px;
-  font-size:11px;
-  line-height:1.7;
+  font-size:22px;
 }
+
+.device-info strong {
+  font-size:12px;
+  display:block;
+}
+
+.device-info small {
+  color:var(--muted);
+  font-size:11px;
+  display:block;
+  margin-top:5px;
+}
+
+/* INSTRUCTIONS */
+
+.instructions {
+  margin-top:30px;
+}
+
+.section-title {
+  font-size:14px;
+  letter-spacing:1px;
+  margin-bottom:20px;
+}
+
+.step {
+  display:flex;
+  align-items:flex-start;
+  gap:14px;
+  margin-bottom:21px;
+}
+
+.step-number {
+  width:32px;
+  height:32px;
+  min-width:32px;
+  display:grid;
+  place-items:center;
+  background:#283c55;
+  color:var(--gold);
+  border-radius:10px;
+  font-weight:900;
+  font-size:13px;
+}
+
+.step-content strong {
+  font-size:13px;
+}
+
+.step-content p {
+  font-size:12px;
+  color:var(--muted);
+  line-height:1.7;
+  margin-top:5px;
+}
+
+/* SECURITY */
+
+.security {
+  background:rgba(231,189,104,.07);
+  border:1px solid rgba(231,189,104,.28);
+  border-radius:14px;
+  padding:16px;
+  margin-top:26px;
+}
+
+.security-title {
+  color:var(--gold);
+  font-size:12px;
+  font-weight:900;
+  margin-bottom:8px;
+}
+
+.security p {
+  font-size:11px;
+  line-height:1.8;
+  color:#d5d0c2;
+}
+
+/* FOOTER */
+
 .footer {
   text-align:center;
-  color:#728197;
+  padding:25px 5px 10px;
+  color:#788ba2;
   font-size:11px;
-  padding:20px 0;
+  line-height:2;
 }
-.footer a {color:var(--gold)}
+
+.footer a {
+  color:var(--gold);
+  text-decoration:none;
+}
+
+.footer-logo {
+  width:30px;
+  height:30px;
+  object-fit:contain;
+  vertical-align:middle;
+  margin-right:5px;
+}
+
+.toast {
+  position:fixed;
+  left:50%;
+  bottom:25px;
+  transform:translate(-50%,100px);
+  opacity:0;
+  background:#183b30;
+  color:#9df1c1;
+  padding:14px 20px;
+  border-radius:12px;
+  font-size:12px;
+  z-index:99;
+  transition:.3s;
+  box-shadow:0 10px 30px #0006;
+  text-align:center;
+}
+
+.toast.show {
+  transform:translate(-50%,0);
+  opacity:1;
+}
+
+/* MOBILE */
+
+@media(max-width:480px) {
+  .page {padding:20px 13px}
+  .card {padding:23px 18px;border-radius:20px}
+  .brand-logo {width:52px;height:52px}
+  .brand-name {font-size:19px}
+  .subtitle {font-size:9px}
+  .idbox {padding:22px 8px}
+}
 </style>
 </head>
 
 <body>
-<main class="container">
 
+<main class="page">
+
+  <!-- BRAND -->
   <header class="header">
-    <div class="logo">
-      <span class="logo-icon">A</span>
-      REMOTE SUPPORT
+    <div class="brand">
+      <img src="logosupport.png"
+           class="brand-logo"
+           alt="Support Logo"
+           onerror="this.style.display='none'">
+
+      <div class="brand-name">
+        REMOTE <span>SUPPORT</span>
+      </div>
     </div>
-    <p>SECURE REMOTE ASSISTANCE PORTAL</p>
+
+    <div class="subtitle">
+      TECHNICAL ASSISTANCE PORTAL
+    </div>
   </header>
 
+  <!-- MAIN -->
   <section class="card">
 
     <div class="status">
-      <span class="dot"></span>
+      <span class="status-dot"></span>
       SUPPORT PORTAL AVAILABLE
     </div>
 
-    <h1>Let's connect remotely.</h1>
+    <h1>How can we help you?</h1>
 
-    <p class="description">
-      Follow the steps below to download AnyDesk and
-      authorize a remote support session with our technician.
+    <p class="intro">
+      Connect with our technical support team through
+      AnyDesk. Follow the instructions below to establish
+      an authorized remote assistance session.
     </p>
 
+    <!-- ANYDESK ID -->
     <div class="idbox">
-      <div class="idlabel">OUR ANYDESK CONNECTION ID</div>
-      <div class="idnumber">1 020 119 851</div>
 
-      <button class="copy" onclick="copyID()">
-        <span>▣</span> COPY CONNECTION ID
+      <div class="id-label">
+        OUR ANYDESK CONNECTION ID
+      </div>
+
+      <div class="id-number">
+        1 020 119 851
+      </div>
+
+      <div class="id-description">
+        Use this ID when connecting to our technician.
+      </div>
+
+      <button class="btn btn-copy" onclick="copyID()">
+        <span class="btn-icon">▣</span>
+        COPY ANYDESK ID
       </button>
+
     </div>
 
-    <button class="download" onclick="downloadApp()">
-      ↓ DOWNLOAD ANYDESK
+    <!-- DOWNLOAD -->
+    <a class="btn btn-download"
+       id="downloadButton"
+       href="https://anydesk.com/en/downloads"
+       target="_blank"
+       rel="noopener noreferrer">
+
+      <span class="btn-icon">↓</span>
+      DOWNLOAD ANYDESK
+    </a>
+
+    <!-- LAUNCH -->
+    <button class="btn btn-launch" onclick="launchApp()">
+      <span class="btn-icon">↗</span>
+      OPEN INSTALLED ANYDESK
     </button>
 
-    <button class="launch" onclick="launchApp()">
-      OPEN ANYDESK APPLICATION ↗
-    </button>
+    <!-- DEVICE DETECTION -->
+    <div class="device">
+      <div class="device-icon" id="deviceIcon">💻</div>
+      <div class="device-info">
+        <strong id="deviceName">Detecting your device...</strong>
+        <small id="deviceDescription">
+          Preparing download recommendation
+        </small>
+      </div>
+    </div>
 
-    <div class="steps">
-      <h3>HOW TO CONNECT</h3>
+    <!-- STEPS -->
+    <div class="instructions">
+
+      <div class="section-title">
+        CONNECTION INSTRUCTIONS
+      </div>
 
       <div class="step">
-        <div class="number">1</div>
-        <div>
+        <div class="step-number">01</div>
+        <div class="step-content">
           <strong>Download AnyDesk</strong>
-          <p>Click Download AnyDesk. Select the official version for your device.</p>
+          <p>
+            Click the download button. You will be redirected
+            to the official AnyDesk website.
+          </p>
         </div>
       </div>
 
       <div class="step">
-        <div class="number">2</div>
-        <div>
+        <div class="step-number">02</div>
+        <div class="step-content">
           <strong>Install or open the application</strong>
-          <p>Follow the installation instructions displayed on your device. Windows users may run the downloaded portable application.</p>
+          <p>
+            Follow the instructions on your device.
+            Installation and required permissions must be
+            approved by you.
+          </p>
         </div>
       </div>
 
       <div class="step">
-        <div class="number">3</div>
-        <div>
-          <strong>Enter our AnyDesk ID</strong>
-          <p>Enter 1 020 119 851 in the Remote Address field and click Connect.</p>
+        <div class="step-number">03</div>
+        <div class="step-content">
+          <strong>Enter the technician ID</strong>
+          <p>
+            Open AnyDesk. Enter
+            <b>1 020 119 851</b> in the Remote Address
+            field and click Connect.
+          </p>
         </div>
       </div>
 
       <div class="step">
-        <div class="number">4</div>
-        <div>
-          <strong>Authorize the connection</strong>
-          <p>Review the connection request and approve it only if you recognize and trust the support technician.</p>
+        <div class="step-number">04</div>
+        <div class="step-content">
+          <strong>Approve the remote session</strong>
+          <p>
+            Review the technician's identity and connection
+            request. Grant access only if you recognize
+            and trust the technician.
+          </p>
         </div>
       </div>
+
     </div>
 
-    <div class="notice">
-      <strong>SECURITY REMINDER</strong><br>
-      Remote access is provided only with your authorization.
-      Never share passwords, banking OTPs, or sensitive personal
-      information. You can terminate the session at any time.
+    <!-- SECURITY -->
+    <div class="security">
+      <div class="security-title">
+        🛡 SECURITY AND PRIVACY
+      </div>
+
+      <p>
+        Remote access is never automatic. You remain in
+        control of your device and must authorize the
+        connection. Never disclose passwords, OTPs,
+        banking credentials, or other confidential
+        information. Disconnect whenever you wish.
+      </p>
     </div>
 
   </section>
 
+  <!-- FOOTER -->
   <footer class="footer">
-    Remote Assistance Portal<br><br>
-    Official software:
+
+    <img src="logosupport.png"
+         class="footer-logo"
+         alt="Logo"
+         onerror="this.style.display='none'">
+
+    <br>
+
+    REMOTE SUPPORT PORTAL
+
+    <br>
+
+    Powered by
     <a href="https://anydesk.com/en"
-       target="_blank" rel="noopener">
+       target="_blank"
+       rel="noopener noreferrer">
        AnyDesk
     </a>
-    &nbsp;|&nbsp;
-    <a href="https://anydesk.com/en/all-platforms"
-       target="_blank" rel="noopener">
-       All Devices
+
+    <br>
+
+    <a href="https://anydesk.com/en/downloads"
+       target="_blank"
+       rel="noopener noreferrer">
+       Official Downloads
     </a>
+
+    &nbsp; | &nbsp;
+
+    <a href="https://anydesk.com/en/contact"
+       target="_blank"
+       rel="noopener noreferrer">
+       AnyDesk Support
+    </a>
+
+    <br>
+
+    © <span id="year"></span> Remote Support
   </footer>
 
 </main>
 
+<div class="toast" id="toast"></div>
+
 <script>
-const ANYDESK_ID = "1020119851";
+"use strict";
 
-function copyID() {
-  const text = ANYDESK_ID;
+const CONFIG = {
+  anydeskID: "1020119851",
 
-  if (navigator.clipboard && window.isSecureContext) {
-    navigator.clipboard.writeText(text)
-      .then(() => alert("AnyDesk ID copied successfully!"))
-      .catch(() => fallbackCopy(text));
-  } else {
-    fallbackCopy(text);
-  }
+  downloads: {
+    windows: "https://anydesk.com/en/downloads/windows",
+    mac: "https://anydesk.com/en/downloads/mac-os",
+    android: "https://anydesk.com/en/downloads/android",
+    ios: "https://anydesk.com/en/downloads/ios",
+    linux: "https://anydesk.com/en/downloads/linux"
+  },
+
+  general: "https://anydesk.com/en/downloads"
+};
+
+function showToast(message) {
+  const toast = document.getElementById("toast");
+
+  toast.textContent = message;
+  toast.classList.add("show");
+
+  clearTimeout(window.toastTimer);
+
+  window.toastTimer = setTimeout(() => {
+    toast.classList.remove("show");
+  }, 2600);
 }
 
-function fallbackCopy(text) {
-  const input = document.createElement("textarea");
-  input.value = text;
-  document.body.appendChild(input);
-  input.select();
+/* COPY ID */
+
+async function copyID() {
+  const id = CONFIG.anydeskID;
+
   try {
-    document.execCommand("copy");
-    alert("AnyDesk ID copied!");
-  } catch(e) {
-    alert("Your AnyDesk ID is: 1 020 119 851");
+    if (navigator.clipboard && window.isSecureContext) {
+      await navigator.clipboard.writeText(id);
+    } else {
+      const input = document.createElement("textarea");
+      input.value = id;
+      input.style.position = "fixed";
+      input.style.opacity = "0";
+      document.body.appendChild(input);
+      input.select();
+
+      const success = document.execCommand("copy");
+      input.remove();
+
+      if (!success) throw new Error("Copy failed");
+    }
+
+    showToast("AnyDesk ID copied successfully!");
+
+  } catch (error) {
+    showToast("Your ID: 1 020 119 851");
   }
-  input.remove();
 }
 
-function downloadApp() {
+/* DEVICE DETECTION */
+
+function detectDevice() {
   const ua = navigator.userAgent;
+  const platform = navigator.platform || "";
 
-  let url = "https://anydesk.com/en/downloads";
+  let device = {
+    name: "Desktop Device",
+    description: "Download the desktop application",
+    icon: "💻",
+    url: CONFIG.downloads.windows
+  };
 
-  if (/Android/i.test(ua)) {
-    url = "https://anydesk.com/en/downloads/android";
-  } else if (/iPhone|iPad|iPod/i.test(ua)) {
-    url = "https://anydesk.com/en/downloads/ios";
-  } else if (/Macintosh|Mac OS X/i.test(ua)) {
-    url = "https://anydesk.com/en/downloads/mac-os";
+  if (/iPad|iPhone|iPod/i.test(ua)) {
+    device = {
+      name: "Apple Mobile Device",
+      description: "Download AnyDesk for iOS",
+      icon: "📱",
+      url: CONFIG.downloads.ios
+    };
+
+  } else if (/Android/i.test(ua)) {
+    device = {
+      name: "Android Device",
+      description: "Download AnyDesk for Android",
+      icon: "📱",
+      url: CONFIG.downloads.android
+    };
+
+  } else if (/Macintosh|Mac OS X/i.test(ua) ||
+             /Mac/i.test(platform)) {
+    device = {
+      name: "Apple Mac",
+      description: "Download AnyDesk for macOS",
+      icon: "🖥️",
+      url: CONFIG.downloads.mac
+    };
+
+  } else if (/Linux/i.test(ua)) {
+    device = {
+      name: "Linux Device",
+      description: "Download AnyDesk for Linux",
+      icon: "🐧",
+      url: CONFIG.downloads.linux
+    };
+
   } else if (/Windows/i.test(ua)) {
-    url = "https://anydesk.com/en/downloads/windows";
+    device = {
+      name: "Windows Computer",
+      description: "Download AnyDesk for Windows",
+      icon: "💻",
+      url: CONFIG.downloads.windows
+    };
   }
 
-  window.open(url, "_blank", "noopener");
+  document.getElementById("deviceName").textContent =
+    device.name;
+
+  document.getElementById("deviceDescription").textContent =
+    device.description;
+
+  document.getElementById("deviceIcon").textContent =
+    device.icon;
+
+  document.getElementById("downloadButton").href =
+    device.url;
 }
+
+/* LAUNCH INSTALLED APP */
 
 function launchApp() {
-  // Requests the installed AnyDesk application.
-  // The browser or operating system may ask for permission.
+  showToast("Requesting AnyDesk application...");
+
+  // Browser may ask permission before opening the application.
   window.location.href = "anydesk:";
 }
+
+/* YEAR */
+
+document.getElementById("year").textContent =
+  new Date().getFullYear();
+
+/* INITIALIZE */
+
+detectDevice();
+
 </script>
 
 </body>
